@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>iPhone Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone Store</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -12,23 +12,24 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+  font-family:'Poppins', sans-serif;
 }
 
 body{
-  background:url("https://i.postimg.cc/7Z2V4JgJ/iphone-bg.jpg") center/cover fixed;
+  background:#f5f5f7;
 }
 
 /* HEADER */
 header{
-  background:rgba(0,0,0,.9);
-  padding:30px;
-  text-align:center;
+  background:#000;
   color:#fff;
+  padding:25px;
+  text-align:center;
 }
 
 header h1{
-  font-size:40px;
+  font-weight:700;
+  font-size:36px;
   animation: glow 2s infinite alternate;
 }
 
@@ -37,58 +38,18 @@ header h1{
   to{ text-shadow:0 0 20px #0071e3; }
 }
 
-/* BOTONES */
-.tabs{
-  display:flex;
-  justify-content:center;
-  gap:15px;
-  margin:25px;
-}
-
-.tabs button{
-  padding:12px 22px;
-  border-radius:30px;
-  border:2px solid #0071e3;
-  background:transparent;
-  color:#0071e3;
-  cursor:pointer;
-  font-weight:600;
-  transition:.3s;
-}
-
-.tabs button.active,
-.tabs button:hover{
-  background:#0071e3;
-  color:#fff;
-  box-shadow:0 0 15px #0071e3;
-}
-
 /* SECCIONES */
-.view{
-  display:none;
-  animation: fade .4s ease;
-}
-
-.view.active{
-  display:block;
-}
-
-@keyframes fade{
-  from{ opacity:0; transform:translateY(10px); }
-  to{ opacity:1; transform:translateY(0); }
-}
-
 section{
+  padding:40px 20px;
   max-width:1200px;
   margin:auto;
-  padding:20px;
 }
 
 .section-title{
   display:flex;
   align-items:center;
-  gap:10px;
-  margin-bottom:20px;
+  gap:12px;
+  margin-bottom:25px;
 }
 
 .section-title img{
@@ -104,28 +65,28 @@ section{
 
 .product{
   background:#fff;
-  border-radius:20px;
+  border-radius:18px;
   padding:20px;
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  box-shadow:0 15px 30px rgba(0,0,0,.1);
 }
 
 .product img{
-  width:140px;
+  width:150px;
 }
 
 .product small{
+  display:block;
   color:#0071e3;
   font-weight:600;
   cursor:pointer;
-  display:block;
   margin:8px 0;
 }
 
 .product button{
   background:#0071e3;
-  color:#fff;
   border:none;
+  color:#fff;
   padding:10px 18px;
   border-radius:12px;
   cursor:pointer;
@@ -134,42 +95,48 @@ section{
 /* BOTÓN CARRITO */
 .cart-btn{
   position:fixed;
-  bottom:20px;
   right:20px;
+  bottom:20px;
   width:60px;
   height:60px;
-  border-radius:50%;
   background:#0071e3;
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
   cursor:pointer;
 }
 
-.cart-btn img{ width:26px; }
+.cart-btn img{
+  width:26px;
+}
 
-/* CARRITO / CHECKOUT */
-.panel{
+/* CARRITO */
+.cart{
+  position:fixed;
+  right:20px;
+  bottom:95px;
+  width:320px;
   background:#000;
   color:#fff;
-  max-width:400px;
-  margin:40px auto;
-  padding:25px;
-  border-radius:20px;
+  padding:20px;
+  border-radius:18px;
+  display:none;
 }
 
-.panel ul{
+.cart ul{
   list-style:none;
-  margin-bottom:15px;
+  max-height:180px;
+  overflow:auto;
 }
 
-.panel li{
+.cart li{
   display:flex;
   justify-content:space-between;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
 
-.panel button{
+.cart button{
   width:100%;
   padding:12px;
   margin-top:10px;
@@ -180,15 +147,25 @@ section{
 }
 
 .green{ background:#25D366; color:#fff; }
-.blue{ background:#0071e3; color:#fff; }
 .gray{ background:#444; color:#fff; }
 
-input,select{
+/* CHECKOUT */
+.checkout{
+  display:none;
+  max-width:400px;
+  margin:40px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 15px 30px rgba(0,0,0,.2);
+}
+
+.checkout input, .checkout select{
   width:100%;
   padding:10px;
-  border-radius:10px;
-  border:none;
   margin-bottom:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
 }
 </style>
 </head>
@@ -200,14 +177,9 @@ input,select{
 </header>
 
 <!-- TIENDA -->
-<div id="store" class="view active">
+<div id="store">
 
-<div class="tabs">
-  <button class="active" onclick="showCategory('phones',this)">Celulares</button>
-  <button onclick="showCategory('accessories',this)">Accesorios</button>
-</div>
-
-<section id="phones">
+<section>
   <div class="section-title">
     <img src="https://i.postimg.cc/3JqSpSGG/iphone-x.png">
     <h2>Celulares</h2>
@@ -224,7 +196,7 @@ input,select{
   </div>
 </section>
 
-<section id="accessories" style="display:none">
+<section>
   <div class="section-title">
     <img src="https://i.postimg.cc/g2Phf3FB/usb.png">
     <h2>Accesorios</h2>
@@ -243,90 +215,66 @@ input,select{
 </div>
 
 <!-- CARRITO -->
-<div id="cartView" class="view">
-  <div class="panel">
-    <h2>Tu carrito</h2>
-    <ul id="cartList"></ul>
-    <button class="blue" onclick="goCheckout()">Continuar</button>
-    <button class="gray" onclick="backStore()">Volver</button>
-  </div>
+<div class="cart" id="cart">
+  <h3>Tu carrito</h3>
+  <ul id="cartItems"></ul>
+  <button class="green" onclick="openCheckout()">Continuar compra</button>
 </div>
 
 <!-- CHECKOUT -->
-<div id="checkout" class="view">
-  <div class="panel">
-    <h2>Checkout</h2>
-    <ul id="resume"></ul>
-    <input id="name" placeholder="Nombre">
-    <input id="phone" placeholder="Teléfono">
-    <input id="address" placeholder="Dirección">
-    <select id="pay">
-      <option>Efectivo</option>
-      <option>Transferencia</option>
-    </select>
-    <button class="green" onclick="sendWA()">Confirmar pedido</button>
-    <button class="gray" onclick="backCart()">Volver</button>
-  </div>
+<div class="checkout" id="checkout">
+  <h2>Finalizar pedido</h2>
+  <input id="name" placeholder="Nombre">
+  <input id="phone" placeholder="Teléfono">
+  <input id="address" placeholder="Dirección">
+  <button class="green" onclick="sendWhatsApp()">Confirmar por WhatsApp</button>
+  <button class="gray" onclick="backStore()">Volver</button>
 </div>
 
-<div class="cart-btn" onclick="openCart()">
+<div class="cart-btn" onclick="toggleCart()">
   <img src="https://i.postimg.cc/8zBK7hh0/carrito-de-compras.png">
 </div>
 
 <script>
 let cart=[];
 
-function showCategory(id,btn){
-  phones.style.display="none";
-  accessories.style.display="none";
-  document.getElementById(id).style.display="block";
-
-  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-}
-
 function addToCart(name,price){
   cart.push({name,price});
+  updateCart();
 }
 
-function openCart(){
-  store.classList.remove("active");
-  cartView.classList.add("active");
-  renderCart();
-}
-
-function renderCart(){
-  cartList.innerHTML="";
+function updateCart(){
+  const ul=document.getElementById("cartItems");
+  ul.innerHTML="";
   cart.forEach((p,i)=>{
-    cartList.innerHTML+=`<li>${p.name} $${p.price} <span onclick="remove(${i})">❌</span></li>`;
+    ul.innerHTML+=`<li>${p.name} $${p.price} <span onclick="remove(${i})">❌</span></li>`;
   });
 }
 
 function remove(i){
   cart.splice(i,1);
-  renderCart();
+  updateCart();
 }
 
-function goCheckout(){
-  cartView.classList.remove("active");
-  checkout.classList.add("active");
-  resume.innerHTML="";
-  cart.forEach(p=>resume.innerHTML+=`<li>${p.name} $${p.price}</li>`);
+function toggleCart(){
+  cart.style.display = cart.style.display==="block"?"none":"block";
+}
+
+function openCheckout(){
+  store.style.display="none";
+  cart.style.display="none";
+  checkout.style.display="block";
 }
 
 function backStore(){
-  cartView.classList.remove("active");
-  store.classList.add("active");
+  checkout.style.display="none";
+  store.style.display="block";
 }
 
-function backCart(){
-  checkout.classList.remove("active");
-  cartView.classList.add("active");
-}
-
-function sendWA(){
+function sendWhatsApp(){
   let msg="Pedido:%0A";
   cart.forEach(p=>msg+=`- ${p.name}%0A`);
+  msg+=`Nombre: ${name.value}%0ATel: ${phone.value}`;
   window.open("https://wa.me/5490000000000?text="+msg);
 }
 </script>
