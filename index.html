@@ -9,7 +9,15 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:#f5f5f7;color:#111;}
+
+body{
+  background:
+    linear-gradient(rgba(245,245,247,.9),rgba(245,245,247,.9)),
+    url("https://images.unsplash.com/photo-1511707171634-5f897ff02aa9");
+  background-size:cover;
+  background-attachment:fixed;
+  color:#111;
+}
 
 /* HEADER */
 header{
@@ -54,16 +62,18 @@ section{
   max-width:1200px;
   margin:auto;
   display:none;
+  animation: slideIn .5s ease;
 }
 section.active{display:block;}
 
-.section-title{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:25px;
+@keyframes slideIn{
+  from{opacity:0;transform:translateX(40px);}
+  to{opacity:1;transform:translateX(0);}
 }
-.section-title img{width:32px;}
+@keyframes slideBack{
+  from{opacity:0;transform:translateX(-40px);}
+  to{opacity:1;transform:translateX(0);}
+}
 
 /* PRODUCTOS */
 .products{
@@ -86,10 +96,9 @@ section.active{display:block;}
 .product p{font-weight:600;margin:6px 0;}
 
 .product span{
-  display:block;
   font-size:13px;
-  font-weight:600;
   color:#0071e3;
+  font-weight:600;
 }
 .product span:hover{
   color:#ff5500;
@@ -130,16 +139,36 @@ section.active{display:block;}
 .cart-item{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   background:#fff;
   padding:15px;
-  border-radius:12px;
+  border-radius:14px;
   margin-bottom:10px;
+  animation:fadeIn .3s;
 }
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95);}
+  to{opacity:1;transform:scale(1);}
+}
+
+.remove{
+  background:#ff3b30;
+  color:#fff;
+  border:none;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  cursor:pointer;
+  font-weight:bold;
+}
+.remove:hover{background:#c70000;}
+
 .total{
   font-size:18px;
   font-weight:700;
   margin-top:15px;
 }
+
 .cart-actions{
   display:flex;
   gap:15px;
@@ -159,8 +188,7 @@ section.active{display:block;}
 /* MODAL */
 .modal{
   position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
+  inset:0;
   background:rgba(0,0,0,.6);
   display:none;
   align-items:center;
@@ -174,14 +202,6 @@ section.active{display:block;}
   max-width:400px;
   width:90%;
   text-align:center;
-  position:relative;
-}
-.modal-close{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:20px;
-  cursor:pointer;
 }
 </style>
 </head>
@@ -192,28 +212,20 @@ section.active{display:block;}
   <h1>iPhone Store</h1>
 </header>
 
-<!-- BOTONES -->
-<div class="tabs">
+<div class="tabs" id="tabs">
   <div class="tab active" onclick="showSection('celulares')">Celulares</div>
   <div class="tab" onclick="showSection('accesorios')">Accesorios</div>
 </div>
 
-<!-- CELULARES -->
 <section id="celulares" class="active">
-  <div class="section-title">
-    <img src="https://i.postimg.cc/3JqSpSGG/iphone-x.png">
-    <h2>Celulares</h2>
-  </div>
-
   <div class="products">
-    <div class="product" data-name="iPhone 15 Pro" data-price="1200000" data-desc="A17 Pro · 512GB · Cámara Pro">
+    <div class="product" data-name="iPhone 15 Pro" data-price="1200000" data-desc="A17 Pro · 512GB">
       <img src="https://i.imgur.com/3GvwNBf.png">
       <h3>iPhone 15 Pro</h3>
       <p>$1.200.000</p>
       <span>Haga click para ver especificaciones</span>
       <button onclick="addToCart(event,'iPhone 15 Pro',1200000)">Agregar</button>
     </div>
-
     <div class="product" data-name="iPhone 14" data-price="950000" data-desc="A15 · 256GB">
       <img src="https://i.imgur.com/wv1zKpP.png">
       <h3>iPhone 14</h3>
@@ -224,33 +236,18 @@ section.active{display:block;}
   </div>
 </section>
 
-<!-- ACCESORIOS -->
 <section id="accesorios">
-  <div class="section-title">
-    <img src="https://i.postimg.cc/g2Phf3FB/usb.png">
-    <h2>Accesorios</h2>
-  </div>
-
   <div class="products">
-    <div class="product" data-name="AirPods Pro" data-price="220000" data-desc="Cancelación activa de ruido">
+    <div class="product" data-name="AirPods Pro" data-price="220000" data-desc="Cancelación de ruido">
       <img src="https://i.imgur.com/MZ6ZK7P.png">
       <h3>AirPods Pro</h3>
       <p>$220.000</p>
       <span>Haga click para ver especificaciones</span>
       <button onclick="addToCart(event,'AirPods Pro',220000)">Agregar</button>
     </div>
-
-    <div class="product" data-name="Cargador MagSafe" data-price="80000" data-desc="Carga rápida">
-      <img src="https://i.imgur.com/0ITqzQy.png">
-      <h3>Cargador MagSafe</h3>
-      <p>$80.000</p>
-      <span>Haga click para ver especificaciones</span>
-      <button onclick="addToCart(event,'Cargador MagSafe',80000)">Agregar</button>
-    </div>
   </div>
 </section>
 
-<!-- CARRITO -->
 <section id="cartPage">
   <h2>Tu carrito</h2>
   <div id="cartItems"></div>
@@ -261,35 +258,20 @@ section.active{display:block;}
   </div>
 </section>
 
-<!-- BOTÓN CARRITO -->
 <div class="cart-btn" onclick="openCart()">
   <img src="https://i.postimg.cc/8zBK7hh0/carrito-de-compras.png">
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal()">×</span>
-    <h3 id="modalTitle"></h3>
-    <p id="modalDesc"></p>
-  </div>
 </div>
 
 <script>
 let cart=[];
 let lastSection='celulares';
 
-/* MODAL */
 document.querySelectorAll('.product').forEach(p=>{
   p.addEventListener('click',()=>{
-    modalTitle.innerText=p.dataset.name;
-    modalDesc.innerText=p.dataset.desc;
-    modal.style.display='flex';
+    alert(p.dataset.desc);
   });
 });
-function closeModal(){modal.style.display='none';}
 
-/* CARRITO */
 function addToCart(e,name,price){
   e.stopPropagation();
   cart.push({name,price});
@@ -297,6 +279,7 @@ function addToCart(e,name,price){
 }
 
 function openCart(){
+  document.getElementById('tabs').style.display='none';
   document.getElementById(lastSection).classList.remove('active');
   document.getElementById('cartPage').classList.add('active');
   renderCart();
@@ -304,6 +287,7 @@ function openCart(){
 
 function backToStore(){
   document.getElementById('cartPage').classList.remove('active');
+  document.getElementById('tabs').style.display='flex';
   document.getElementById(lastSection).classList.add('active');
 }
 
@@ -311,24 +295,31 @@ function renderCart(){
   const list=document.getElementById('cartItems');
   list.innerHTML='';
   let total=0;
-  cart.forEach(p=>{
+  cart.forEach((p,i)=>{
     total+=p.price;
     list.innerHTML+=`
       <div class="cart-item">
         <span>${p.name}</span>
-        <strong>$${p.price.toLocaleString()}</strong>
+        <div>
+          <strong>$${p.price.toLocaleString()}</strong>
+          <button class="remove" onclick="removeItem(${i})">×</button>
+        </div>
       </div>`;
   });
   document.getElementById('total').innerText='Total: $'+total.toLocaleString();
 }
 
+function removeItem(i){
+  cart.splice(i,1);
+  renderCart();
+}
+
 function showSection(id){
+  lastSection=id;
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   event.target.classList.add('active');
-
   document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  lastSection=id;
 }
 
 function sendWhatsApp(){
