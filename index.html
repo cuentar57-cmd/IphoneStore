@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPhone Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f5f5f7;color:#111;}
+
+/* HEADER */
+header{
+  background:#000;color:#fff;padding:25px;text-align:center;
+}
+header h1{
+  font-weight:700;
+  animation: bounceIn 1s ease forwards;
+}
+@keyframes bounceIn {
+  0%{opacity:0; transform: scale(0.5);}
+  60%{opacity:1; transform: scale(1.2);}
+  80%{transform: scale(0.9);}
+  100%{transform: scale(1);}
+}
+
+/* TABS */
+.tabs{
+  display:flex;justify-content:center;margin:20px 0;gap:20px;
+}
+.tab{
+  position: relative;padding:10px 20px;cursor:pointer;border-radius:12px;
+  background:#ddd;font-weight:600;transition: color .3s, background .3s;overflow: hidden;
+}
+.tab:not(.active)::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  border:2px solid #0071e3;border-radius:12px;transform: scale(0);
+  transition: transform .3s;pointer-events: none;
+}
+.tab:not(.active):hover::before{transform: scale(1);}
+.tab.active{background:#0071e3;color:#fff;}
+.tab.active::before{transform: scale(1.05);}
+
+/* SECCIONES */
+section{
+  padding:20px;max-width:1200px;margin:auto;display:none;
+}
+section.active{display:block;}
+.section-title{display:flex;align-items:center;gap:12px;margin-bottom:25px;}
+.section-title img{width:32px;}
+
+/* PRODUCTOS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+}
+.product{
+  background:#fff;border-radius:18px;padding:20px;text-align:center;
+  box-shadow:0 15px 30px rgba(0,0,0,.1);
+  transition:.3s;cursor:pointer;
+}
+.product:hover{transform:translateY(-6px);}
+.product img{width:150px;margin-bottom:15px;}
+.product h3{font-size:18px;}
+.product p{margin:10px 0;font-weight:600;}
+.product span{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:#0071e3;
+  margin-top:5px;
+  cursor:pointer;
+  transition: color .3s;
+}
+.product span:hover{
+  color:#ff5500;
+  text-decoration:underline;
+}
+
+/* BOTÓN AGREGAR */
+.product button{
+  margin-top:10px;
+  background:#0071e3;border:none;color:#fff;padding:10px 18px;
+  border-radius:12px;cursor:pointer;font-size:14px;font-weight:600;
+  transition: background .3s;
+}
+.product button:hover{background:#005bb5;}
+
+/* BOTÓN CARRITO */
+.cart-btn{
+  position:fixed;right:20px;bottom:20px;width:60px;height:60px;
+  background:#0071e3;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+.cart-btn img{width:26px;}
+
+/* CARRITO */
+.cart{
+  position:fixed;right:20px;bottom:95px;width:320px;background:#000;color:#fff;padding:20px;
+  border-radius:18px;display:none;
+}
+.cart h3{margin-bottom:10px;}
+.cart ul{list-style:none;max-height:200px;overflow-y:auto;margin-bottom:10px;}
+.cart li{font-size:14px;margin-bottom:6px;}
+.cart button{
+  width:100%;padding:12px;border:none;border-radius:12px;background:#25D366;
+  color:#fff;cursor:pointer;font-weight:600;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.6);display:none;
+  align-items:center;justify-content:center;z-index:1000;
+}
+.modal-content{
+  background:#fff;padding:30px;border-radius:18px;max-width:500px;width:90%;text-align:center;
+  position:relative;box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+.modal-content h3{margin-bottom:15px;}
+.modal-content p{margin-bottom:20px;}
+.modal-content button{
+  background:#0071e3;border:none;color:#fff;padding:10px 18px;border-radius:12px;
+  cursor:pointer;font-weight:600;
+}
+.modal-close{
+  position:absolute;top:10px;right:15px;font-size:20px;font-weight:bold;cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>iPhone Store</h1>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showSection('celulares')">Celulares</div>
+  <div class="tab" onclick="showSection('accesorios')">Accesorios</div>
+</div>
+
+<!-- CELULARES -->
+<section id="celulares" class="active">
+  <div class="section-title">
+    <img src="https://i.postimg.cc/3JqSpSGG/iphone-x.png"><h2>Celulares</h2>
+  </div>
+  <div class="products">
+    <div class="product" data-name="iPhone 15 Pro" data-desc="Pantalla 6.7&quot;, Chip A17, 512GB, Triple cámara">
+      <img src="https://i.imgur.com/3GvwNBf.png"><h3>iPhone 15 Pro</h3><p>$1.200.000</p>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart('iPhone 15 Pro');event.stopPropagation();">Agregar al carrito</button>
+    </div>
+    <div class="product" data-name="iPhone 14" data-desc="Pantalla 6.1&quot;, Chip A15, 256GB, Doble cámara">
+      <img src="https://i.imgur.com/wv1zKpP.png"><h3>iPhone 14</h3><p>$950.000</p>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart('iPhone 14');event.stopPropagation();">Agregar al carrito</button>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESORIOS -->
+<section id="accesorios">
+  <div class="section-title">
+    <img src="https://i.postimg.cc/g2Phf3FB/usb.png"><h2>Accesorios</h2>
+  </div>
+  <div class="products">
+    <div class="product" data-name="AirPods" data-desc="Auriculares inalámbricos, cancelación de ruido">
+      <img src="https://i.imgur.com/MZ6ZK7P.png"><h3>AirPods</h3><p>$180.000</p>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart('AirPods');event.stopPropagation();">Agregar al carrito</button>
+    </div>
+    <div class="product" data-name="Funda iPhone" data-desc="Protección completa, silicona premium">
+      <img src="https://i.imgur.com/0ITqzQy.png"><h3>Funda iPhone</h3><p>$25.000</p>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart('Funda iPhone');event.stopPropagation();">Agregar al carrito</button>
+    </div>
+  </div>
+</section>
+
+<!-- BOTÓN CARRITO -->
+<div class="cart-btn" onclick="toggleCart()">
+  <img src="https://i.postimg.cc/8zBK7hh0/carrito-de-compras.png">
+</div>
+
+<!-- CARRITO -->
+<div class="cart" id="cart">
+  <h3>Tu carrito</h3>
+  <ul id="cartItems"></ul>
+  <button onclick="sendWhatsApp()">Hacer pedido</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <button onclick="addToCartFromModal()">Agregar al carrito</button>
+  </div>
+</div>
+
+<script>
+let cart=[];
+let selectedProduct='';
+
+function addToCart(product){cart.push(product);updateCart();}
+function updateCart(){
+  const list=document.getElementById('cartItems');
+  list.innerHTML='';
+  cart.forEach(item=>{const li=document.createElement('li');li.textContent=item;list.appendChild(li);});
+}
+function toggleCart(){
+  const cartBox=document.getElementById('cart');
+  cartBox.style.display=cartBox.style.display==='block'?'none':'block';
+}
+function showSection(id){
+  document.querySelectorAll('section').forEach(sec=>sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(tab=>tab.classList.remove('active'));
+  if(id==='celulares') document.querySelectorAll('.tab')[0].classList.add('active');
+  else document.querySelectorAll('.tab')[1].classList.add('active');
+}
+function sendWhatsApp(){
+  if(cart.length===0){alert('El carrito está vacío');return;}
+  let message='Hola! Quiero pedir:%0A';
+  cart.forEach(item=>{message+='- '+item+'%0A';});
+  window.open('https://wa.me/5490000000000?text='+message);
+}
+
+/* MODAL FUNCIONES */
+document.querySelectorAll('.product').forEach(prod=>{
+  prod.addEventListener('click', function(e){
+    selectedProduct=this.dataset.name;
+    document.getElementById('modalTitle').textContent=this.dataset.name;
+    document.getElementById('modalDesc').textContent=this.dataset.desc;
+    document.getElementById('modal').style.display='flex';
+  });
+});
+function closeModal(){document.getElementById('modal').style.display='none';}
+function addToCartFromModal(){if(selectedProduct){addToCart(selectedProduct);closeModal();}}
+</script>
+
+</body>
+</html>
