@@ -8,15 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins', sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
 body{
-  background:#f5f5f7;
+  background:
+    linear-gradient(rgba(245,245,247,.9),rgba(245,245,247,.9)),
+    url("https://images.unsplash.com/photo-1511707171634-5f897ff02aa9");
+  background-size:cover;
+  background-attachment:fixed;
+  color:#111;
 }
 
 /* HEADER */
@@ -26,32 +26,59 @@ header{
   padding:25px;
   text-align:center;
 }
-
 header h1{
   font-weight:700;
   font-size:36px;
   animation: glow 2s infinite alternate;
 }
-
 @keyframes glow{
-  from{ text-shadow:0 0 5px #0071e3; }
-  to{ text-shadow:0 0 20px #0071e3; }
+  from{text-shadow:0 0 5px #0071e3;}
+  to{text-shadow:0 0 20px #0071e3;}
+}
+
+/* BOTONES SUPERIORES */
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  margin:20px 0;
+}
+.tab{
+  padding:10px 25px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:600;
+  border:2px solid #0071e3;
+  color:#0071e3;
+  transition:.3s;
+}
+.tab.active,.tab:hover{
+  background:#0071e3;
+  color:#fff;
 }
 
 /* SECCIONES */
 section{
-  padding:40px 20px;
+  padding:30px;
   max-width:1200px;
   margin:auto;
+  display:none;
+  animation: slideIn .5s ease;
+}
+section.active{display:block;}
+
+@keyframes slideIn{
+  from{opacity:0;transform:translateX(40px);}
+  to{opacity:1;transform:translateX(0);}
 }
 
+/* TITULOS CON ICONOS */
 .section-title{
   display:flex;
   align-items:center;
   gap:12px;
   margin-bottom:25px;
 }
-
 .section-title img{
   width:32px;
 }
@@ -62,35 +89,41 @@ section{
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:25px;
 }
-
 .product{
   background:#fff;
   border-radius:18px;
   padding:20px;
   text-align:center;
-  box-shadow:0 15px 30px rgba(0,0,0,.1);
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+  cursor:pointer;
+  transition:.3s;
 }
+.product:hover{transform:translateY(-6px);}
+.product img{width:150px;margin-bottom:10px;}
+.product h3{font-size:18px;}
+.product p{font-weight:600;margin:6px 0;}
 
-.product img{
-  width:150px;
-}
-
-.product small{
-  display:block;
+.product span{
+  font-size:13px;
   color:#0071e3;
   font-weight:600;
-  cursor:pointer;
-  margin:8px 0;
+}
+.product span:hover{
+  color:#ff5500;
+  text-decoration:underline;
 }
 
 .product button{
+  margin-top:10px;
   background:#0071e3;
   border:none;
   color:#fff;
   padding:10px 18px;
   border-radius:12px;
+  font-weight:600;
   cursor:pointer;
 }
+.product button:hover{background:#005bb5;}
 
 /* BOTÓN CARRITO */
 .cart-btn{
@@ -105,49 +138,60 @@ section{
   align-items:center;
   justify-content:center;
   cursor:pointer;
+  box-shadow:0 10px 20px rgba(0,0,0,.25);
+  z-index:100;
 }
-
-.cart-btn img{
-  width:26px;
-}
+.cart-btn img{width:28px;}
 
 /* CARRITO */
-.cart{
-  position:fixed;
-  right:20px;
-  bottom:95px;
-  width:320px;
-  background:#000;
-  color:#fff;
-  padding:20px;
-  border-radius:18px;
-  display:none;
-}
-
-.cart ul{
-  list-style:none;
-  max-height:180px;
-  overflow:auto;
-}
-
-.cart li{
+.cart-item{
   display:flex;
   justify-content:space-between;
-  margin-bottom:6px;
+  align-items:center;
+  background:#fff;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:10px;
+  animation:fadeIn .3s;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95);}
+  to{opacity:1;transform:scale(1);}
 }
 
-.cart button{
-  width:100%;
+.remove{
+  background:#ff3b30;
+  color:#fff;
+  border:none;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  cursor:pointer;
+  font-weight:bold;
+}
+.remove:hover{background:#c70000;}
+
+.total{
+  font-size:18px;
+  font-weight:700;
+  margin-top:15px;
+}
+
+.cart-actions{
+  display:flex;
+  gap:15px;
+  margin-top:20px;
+}
+.cart-actions button{
+  flex:1;
   padding:12px;
-  margin-top:10px;
   border:none;
   border-radius:12px;
   font-weight:600;
   cursor:pointer;
 }
-
-.green{ background:#25D366; color:#fff; }
-.gray{ background:#444; color:#fff; }
+.back{background:#ccc;}
+.buy{background:#25D366;color:#fff;}
 
 /* CHECKOUT */
 .checkout{
@@ -159,7 +203,6 @@ section{
   border-radius:18px;
   box-shadow:0 15px 30px rgba(0,0,0,.2);
 }
-
 .checkout input, .checkout select{
   width:100%;
   padding:10px;
@@ -167,6 +210,16 @@ section{
   border-radius:10px;
   border:1px solid #ccc;
 }
+.checkout button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+.checkout .green{background:#25D366;color:#fff;}
+.checkout .gray{background:#444;color:#fff;}
 </style>
 </head>
 
@@ -176,106 +229,172 @@ section{
   <h1>iPhone Store</h1>
 </header>
 
-<!-- TIENDA -->
-<div id="store">
+<div class="tabs" id="tabs">
+  <div class="tab active" onclick="showSection('celulares')">Celulares</div>
+  <div class="tab" onclick="showSection('accesorios')">Accesorios</div>
+</div>
 
-<section>
+<!-- CELULARES -->
+<section id="celulares" class="active">
   <div class="section-title">
     <img src="https://i.postimg.cc/3JqSpSGG/iphone-x.png">
     <h2>Celulares</h2>
   </div>
-
   <div class="products">
-    <div class="product">
+    <div class="product" data-name="iPhone 15 Pro" data-price="1200000" data-desc="A17 Pro · 512GB">
       <img src="https://i.imgur.com/3GvwNBf.png">
       <h3>iPhone 15 Pro</h3>
       <p>$1.200.000</p>
-      <small>Hacé click para ver especificaciones</small>
-      <button onclick="addToCart('iPhone 15 Pro',1200000)">Agregar</button>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart(event,'iPhone 15 Pro',1200000)">Agregar</button>
+    </div>
+    <div class="product" data-name="iPhone 14" data-price="950000" data-desc="A15 · 256GB">
+      <img src="https://i.imgur.com/wv1zKpP.png">
+      <h3>iPhone 14</h3>
+      <p>$950.000</p>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart(event,'iPhone 14',950000)">Agregar</button>
     </div>
   </div>
 </section>
 
-<section>
+<!-- ACCESORIOS -->
+<section id="accesorios">
   <div class="section-title">
     <img src="https://i.postimg.cc/g2Phf3FB/usb.png">
     <h2>Accesorios</h2>
   </div>
-
   <div class="products">
-    <div class="product">
+    <div class="product" data-name="AirPods Pro" data-price="220000" data-desc="Cancelación de ruido">
       <img src="https://i.imgur.com/MZ6ZK7P.png">
-      <h3>AirPods</h3>
-      <p>$180.000</p>
-      <button onclick="addToCart('AirPods',180000)">Agregar</button>
+      <h3>AirPods Pro</h3>
+      <p>$220.000</p>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart(event,'AirPods Pro',220000)">Agregar</button>
+    </div>
+    <div class="product" data-name="Funda iPhone" data-price="25000" data-desc="Silicona, varios colores">
+      <img src="https://i.imgur.com/0ITqzQy.png">
+      <h3>Funda iPhone</h3>
+      <p>$25.000</p>
+      <span>Haga click para ver especificaciones</span>
+      <button onclick="addToCart(event,'Funda iPhone',25000)">Agregar</button>
     </div>
   </div>
 </section>
 
-</div>
-
 <!-- CARRITO -->
-<div class="cart" id="cart">
-  <h3>Tu carrito</h3>
-  <ul id="cartItems"></ul>
-  <button class="green" onclick="openCheckout()">Continuar compra</button>
-</div>
+<section id="cartPage">
+  <h2>Tu carrito</h2>
+  <div id="cartItems"></div>
+  <div class="total" id="total"></div>
+  <div class="cart-actions">
+    <button class="back" onclick="backToStore()">⬅ Volver</button>
+    <button class="buy" onclick="openCheckout()">Continuar</button>
+  </div>
+</section>
 
 <!-- CHECKOUT -->
-<div class="checkout" id="checkout">
-  <h2>Finalizar pedido</h2>
+<section class="checkout" id="checkout">
+  <h2>Checkout</h2>
   <input id="name" placeholder="Nombre">
   <input id="phone" placeholder="Teléfono">
   <input id="address" placeholder="Dirección">
+  <select id="pay">
+    <option>Efectivo</option>
+    <option>Transferencia</option>
+  </select>
   <button class="green" onclick="sendWhatsApp()">Confirmar por WhatsApp</button>
-  <button class="gray" onclick="backStore()">Volver</button>
-</div>
+  <button class="gray" onclick="backToCart()">Volver</button>
+</section>
 
-<div class="cart-btn" onclick="toggleCart()">
+<div class="cart-btn" onclick="openCart()">
   <img src="https://i.postimg.cc/8zBK7hh0/carrito-de-compras.png">
 </div>
 
 <script>
 let cart=[];
+let lastSection='celulares';
 
-function addToCart(name,price){
-  cart.push({name,price});
-  updateCart();
-}
-
-function updateCart(){
-  const ul=document.getElementById("cartItems");
-  ul.innerHTML="";
-  cart.forEach((p,i)=>{
-    ul.innerHTML+=`<li>${p.name} $${p.price} <span onclick="remove(${i})">❌</span></li>`;
+document.querySelectorAll('.product span').forEach(p=>{
+  p.addEventListener('click',()=>{
+    alert(p.parentElement.dataset.desc);
   });
+});
+
+function addToCart(e,name,price){
+  e.stopPropagation();
+  cart.push({name,price});
+  alert('Producto agregado');
 }
 
-function remove(i){
-  cart.splice(i,1);
-  updateCart();
+function showSection(id){
+  lastSection=id;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('section').forEach(s=>{
+    if(s.id!='cartPage' && s.id!='checkout'){s.classList.remove('active');}
+  });
+  document.getElementById(id).classList.add('active');
+  document.getElementById('tabs').style.display='flex';
 }
 
-function toggleCart(){
-  cart.style.display = cart.style.display==="block"?"none":"block";
+function openCart(){
+  document.getElementById('tabs').style.display='none';
+  document.getElementById(lastSection).classList.remove('active');
+  document.getElementById('cartPage').classList.add('active');
+  renderCart();
+}
+
+function backToStore(){
+  document.getElementById('cartPage').classList.remove('active');
+  document.getElementById('tabs').style.display='flex';
+  document.getElementById(lastSection).classList.add('active');
 }
 
 function openCheckout(){
-  store.style.display="none";
-  cart.style.display="none";
-  checkout.style.display="block";
+  document.getElementById('cartPage').classList.remove('active');
+  document.getElementById('checkout').style.display='block';
+  renderCart(); // Para ver productos en checkout si querés
 }
 
-function backStore(){
-  checkout.style.display="none";
-  store.style.display="block";
+function backToCart(){
+  document.getElementById('checkout').style.display='none';
+  document.getElementById('cartPage').classList.add('active');
+}
+
+function renderCart(){
+  const list=document.getElementById('cartItems');
+  list.innerHTML='';
+  let total=0;
+  cart.forEach((p,i)=>{
+    total+=p.price;
+    list.innerHTML+=`
+      <div class="cart-item">
+        <span>${p.name}</span>
+        <div>
+          <strong>$${p.price.toLocaleString()}</strong>
+          <button class="remove" onclick="removeItem(${i})">×</button>
+        </div>
+      </div>`;
+  });
+  document.getElementById('total').innerText='Total: $'+total.toLocaleString();
+}
+
+function removeItem(i){
+  cart.splice(i,1);
+  renderCart();
 }
 
 function sendWhatsApp(){
-  let msg="Pedido:%0A";
-  cart.forEach(p=>msg+=`- ${p.name}%0A`);
-  msg+=`Nombre: ${name.value}%0ATel: ${phone.value}`;
-  window.open("https://wa.me/5490000000000?text="+msg);
+  if(cart.length===0){alert('Carrito vacío');return;}
+  let nameV=document.getElementById('name').value;
+  let phoneV=document.getElementById('phone').value;
+  let addressV=document.getElementById('address').value;
+  let payV=document.getElementById('pay').value;
+  let msg='Hola! Quiero pedir:%0A';
+  cart.forEach(p=>msg+=`- ${p.name} $${p.price}%0A`);
+  msg+=`Nombre: ${nameV}%0ATeléfono: ${phoneV}%0ADirección: ${addressV}%0APago: ${payV}`;
+  window.open('https://wa.me/5490000000000?text='+msg);
 }
 </script>
 
